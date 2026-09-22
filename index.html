@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+
+<title>Smart Duty Pro Ultimate</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+        <div class="logo">📚</div>
+
+        <h1>Smart Duty Pro</h1>
+
+        <p>
+            ระบบจัดเวรและตรวจสอบการทำเวรนักเรียน
+        </p>
+
+        <label>ชื่อผู้ใช้</label>
+
+        <input
+            id="username"
+            type="text"
+            placeholder="กรอกชื่อผู้ใช้"
+            autocomplete="username"
+        >
+
+        <label>รหัสผ่าน</label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="กรอกรหัสผ่าน"
+            autocomplete="current-password"
+        >
+
+        <button
+            type="button"
+            class="btn btn-primary btn-full"
+            onclick="login()"
+        >
+            🔐 เข้าสู่ระบบ
+        </button>
+
+        <div class="demo-account">
+
+            <b>บัญชีทดลอง</b>
+
+            <div>
+                👨‍🏫 ครู :
+                <b>teacher</b> / <b>1234</b>
+            </div>
+
+            <div>
+                👑 หัวหน้าเวร :
+                <b>leader</b> / <b>1234</b>
+            </div>
+
+            <div>
+                👨‍🎓 นักเรียน :
+                <b>student</b> / <b>1234</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<div id="appScreen" class="app-screen hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside id="sidebar" class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📚
+            </div>
+
+            <div>
+                <strong>Smart Duty</strong>
+                <small>Pro Ultimate</small>
+            </div>
+
+        </div>
+
+
+        <!-- USER -->
+
+        <div class="user-box">
+
+            <div
+                id="userAvatar"
+                class="user-avatar"
+            >
+                👤
+            </div>
+
+            <div>
+
+                <strong id="sidebarUser">
+                    ผู้ใช้งาน
+                </strong>
+
+                <small id="sidebarRole">
+                    -
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+
+        <nav class="menu">
+
+            <button
+                type="button"
+                onclick="openPage('dashboard')"
+            >
+                🏠 Dashboard
+            </button>
+
+
+            <button
+                type="button"
+                onclick="openPage('duties')"
+            >
+                📋 ตารางเวร
+            </button>
+
+
+            <button
+                id="menuCheck"
+                type="button"
+                onclick="openPage('check')"
+            >
+                ✅ ตรวจเวร
+            </button>
+
+
+            <button
+                type="button"
+                onclick="openPage('requests')"
+            >
+                📝 คำขอ
+            </button>
+
+
+            <button
+                id="menuStudents"
+                type="button"
+                onclick="openPage('students')"
+            >
+                👨‍🎓 นักเรียน
+            </button>
+
+
+            <button
+                type="button"
+                onclick="openPage('reports')"
+            >
+                📊 รายงาน
+            </button>
+
+
+            <button
+                type="button"
+                onclick="openPage('history')"
+            >
+                🕘 ประวัติ
+            </button>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <button
+            type="button"
+            class="logout-button"
+            onclick="logout()"
+        >
+            🚪 ออกจากระบบ
+        </button>
+
+    </aside>
+
+
+    <!-- =================================================
+         MAIN
+    ================================================== -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <div>
+
+                <h2 id="pageTitle">
+                    Dashboard
+                </h2>
+
+                <small id="todayText"></small>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <span id="clock">
+                    00:00:00
+                </span>
+
+                <button
+                    type="button"
+                    onclick="logout()"
+                    class="top-logout"
+                >
+                    🚪
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+        <section
+            id="page-dashboard"
+            class="page"
+        >
+
+            <div class="hero">
+
+                <div>
+
+                    <h1>
+                        สวัสดี 👋
+                        <span id="welcomeName">
+                            ผู้ใช้งาน
+                        </span>
+                    </h1>
+
+                    <p>
+                        ยินดีต้อนรับเข้าสู่ Smart Duty Pro
+                    </p>
+
+                </div>
+
+
+                <div class="hero-icon">
+                    📚
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+
+                        <small>
+                            นักเรียนทั้งหมด
+                        </small>
+
+                        <strong id="statStudents">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <small>
+                            ทำเวรแล้ว
+                        </small>
+
+                        <strong id="statDone">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon red">
+                        ✗
+                    </div>
+
+                    <div>
+
+                        <small>
+                            ไม่ทำเวร
+                        </small>
+
+                        <strong id="statBad">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        ⏳
+                    </div>
+
+                    <div>
+
+                        <small>
+                            รอตรวจ
+                        </small>
+
+                        <strong id="statWaiting">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD CONTENT -->
+
+            <div class="two-column">
+
+                <div class="panel">
+
+                    <div class="panel-title">
+
+                        <h3>
+                            📋 เวรวันนี้
+                        </h3>
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="openPage('duties')"
+                        >
+                            ดูทั้งหมด
+                        </button>
+
+                    </div>
+
+                    <div id="dashboardDuties"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title">
+
+                        <h3>
+                            🔔 การแจ้งเตือน
+                        </h3>
+
+                    </div>
+
+                    <div id="notifications"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DUTIES
+        ================================================== -->
+
+        <section
+            id="page-duties"
+            class="page hidden"
+        >
+
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <div>
+
+                        <h3>
+                            📋 ตารางเวร
+                        </h3>
+
+                        <small>
+                            จัดการตารางเวรนักเรียน
+                        </small>
+
+                    </div>
+
+
+                    <button
+                        id="addDutyButton"
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="openDutyForm()"
+                    >
+                        ➕ เพิ่มเวร
+                    </button>
+
+                </div>
+
+
+                <input
+                    id="dutySearch"
+                    class="search"
+                    type="text"
+                    placeholder="🔎 ค้นหานักเรียน..."
+                    oninput="renderDuties()"
+                >
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>วันที่</th>
+
+                                <th>รหัส</th>
+
+                                <th>นักเรียน</th>
+
+                                <th>หน้าที่</th>
+
+                                <th>สถานะ</th>
+
+                                <th>คะแนน</th>
+
+                                <th>จัดการ</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="dutyTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CHECK DUTY
+        ================================================== -->
+
+        <section
+            id="page-check"
+            class="page hidden"
+        >
+
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <div>
+
+                        <h3>
+                            ✅ ตรวจเวร
+                        </h3>
+
+                        <small>
+                            หัวหน้าเวรตรวจสอบการทำเวร
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>นักเรียน</th>
+
+                                <th>หน้าที่</th>
+
+                                <th>สถานะ</th>
+
+                                <th>ตรวจสอบ</th>
+
+                                <th>ครู</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="checkTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REQUESTS
+        ================================================== -->
+
+        <section
+            id="page-requests"
+            class="page hidden"
+        >
+
+            <!-- STUDENT REQUEST -->
+
+            <div
+                id="studentRequestPanel"
+                class="panel"
+            >
+
+                <div class="panel-title">
+
+                    <h3>
+                        📝 ส่งคำขอ
+                    </h3>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div>
+
+                        <label>
+                            ประเภทคำขอ
+                        </label>
+
+                        <select id="requestType">
+
+                            <option value="leave">
+                                ⏸️ ขอหยุดเวร
+                            </option>
+
+                            <option value="swap">
+                                🔄 ขอสลับเวร
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            วันที่
+                        </label>
+
+                        <input
+                            id="requestDate"
+                            type="date"
+                        >
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label>
+                            เหตุผล
+                        </label>
+
+                        <textarea
+                            id="requestReason"
+                            placeholder="กรอกรายละเอียดหรือเหตุผล"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="sendRequest()"
+                >
+                    📤 ส่งคำขอ
+                </button>
+
+            </div>
+
+
+            <!-- REQUEST LIST -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <h3>
+                        📨 รายการคำขอ
+                    </h3>
+
+                </div>
+
+
+                <div id="requestList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             STUDENTS
+        ================================================== -->
+
+        <section
+            id="page-students"
+            class="page hidden"
+        >
+
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <div>
+
+                        <h3>
+                            👨‍🎓 จัดการนักเรียน
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="openStudentForm()"
+                    >
+                        ➕ เพิ่มนักเรียน
+                    </button>
+
+                </div>
+
+
+                <input
+                    class="search"
+                    type="text"
+                    placeholder="🔎 ค้นหาชื่อหรือรหัส..."
+                    oninput="renderStudents(this.value)"
+                >
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>รหัส</th>
+
+                                <th>ชื่อ</th>
+
+                                <th>คะแนน</th>
+
+                                <th>เวรทั้งหมด</th>
+
+                                <th>ทำแล้ว</th>
+
+                                <th>ไม่ทำ</th>
+
+                                <th>จัดการ</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="studentTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             REPORT
+        ================================================== -->
+
+        <section
+            id="page-reports"
+            class="page hidden"
+        >
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <small>
+                            ทำแล้ว
+                        </small>
+
+                        <strong id="reportDone">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon red">
+                        ✗
+                    </div>
+
+                    <div>
+
+                        <small>
+                            ไม่ทำ
+                        </small>
+
+                        <strong id="reportBad">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        ⏳
+                    </div>
+
+                    <div>
+
+                        <small>
+                            รอตรวจ
+                        </small>
+
+                        <strong id="reportWaiting">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        ⭐
+                    </div>
+
+                    <div>
+
+                        <small>
+                            คะแนนรวม
+                        </small>
+
+                        <strong id="reportPoints">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h3>
+                    📊 สถิติการทำเวร
+                </h3>
+
+                <div
+                    id="reportBars"
+                    class="report-bars"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             HISTORY
+        ================================================== -->
+
+        <section
+            id="page-history"
+            class="page hidden"
+        >
+
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <h3>
+                        🕘 ประวัติการทำงาน
+                    </h3>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        onclick="clearHistory()"
+                    >
+                        🗑️ ล้างประวัติ
+                    </button>
+
+                </div>
+
+
+                <div id="historyList"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    id="modal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3 id="modalTitle">
+                เพิ่มข้อมูล
+            </h3>
+
+
+            <button
+                type="button"
+                onclick="closeModal()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <div id="modalBody"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="app.js"></script>
+
+</body>
+  </html>
